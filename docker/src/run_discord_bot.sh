@@ -1,2 +1,2 @@
 source .env
-dotnet run RuTakingTooLong.csproj --runtime linux-x64
+dotnet run RuTakingTooLong.csproj --runtime linux-arm64
