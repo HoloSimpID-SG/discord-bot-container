@@ -33,8 +33,10 @@ ARG NET_BOT_DIR=${WORK_DIR}/HoloSimpCart-Net
 
 # Create the necessary directory, clone the connectedhomeip repo
 RUN mkdir -p ${WORK_DIR} \
-    && git clone ${DISCORD_BOT_NET_REPO} ${NET_BOT_DIR}
-
+    && git clone ${DISCORD_BOT_NET_REPO} ${NET_BOT_DIR} --branch $DISCORD_BOT_NET_REF \
+    && cd ${NET_BOT_DIR} \
+    && git checkout $DISCORD_BOT_NET_REF \
+    && git pull origin $DISCORD_BOT_NET_REF
 
 # Copy sources into docker image
 COPY src/run_discord_bot.sh ${NET_BOT_DIR}/run_discord_bot.sh
