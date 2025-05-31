@@ -10,7 +10,7 @@ SCRIPTNAME="$NAME.sh"
 setup_discord_bot() {
     echo "Setting up $NAME..."
     chmod u+x scripts/*
-    exec ./scripts/bot_setup.sh $1 $2 $3 $4
+    ./scripts/bot_setup.sh $1 $2 $3 $4
     echo "Setting up $NAME done!"
 }
 
@@ -19,7 +19,7 @@ setup_discord_bot() {
 #
 start_discord_bot() {
     echo "Starting $NAME..."
-    exec ./scripts/bot_start.sh
+    ./scripts/bot_start.sh
     echo "Starting $NAME done!"
 }
 
@@ -28,7 +28,7 @@ start_discord_bot() {
 #
 stop_discord_bot() {
     echo "Stopping $NAME..."
-    exec ./scripts/bot_stop.sh
+    ./scripts/bot_stop.sh
     echo "Stopping $NAME done!"
 }
 
@@ -37,7 +37,7 @@ stop_discord_bot() {
 #
 status_of_discord_bot() {
     echo "Checking the status of $NAME..."
-    exec ./scripts/bot_status.sh
+    ./scripts/bot_status.sh
     echo "Checking the status of $NAME done!"
 }
 
