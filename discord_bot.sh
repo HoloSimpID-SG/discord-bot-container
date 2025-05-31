@@ -10,7 +10,7 @@ SCRIPTNAME="$NAME.sh"
 setup_discord_bot() {
     echo "Setting up $NAME..."
     chmod u+x scripts/*
-    exec ./scripts/bot_setup.sh $2 $3 $4 $5
+    exec ./scripts/bot_setup.sh $1 $2 $3 $4
     echo "Setting up $NAME done!"
 }
 
@@ -43,7 +43,7 @@ status_of_discord_bot() {
 
 case "$1" in
     setup)
-        setup_discord_bot
+        setup_discord_bot $2 $3 $4 $5
         ;;
     start)
         start_discord_bot

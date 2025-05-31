@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Template values
-DEFAULT_TOKEN="your_discord_token_here"
+DEFAULT_TOKEN="your_discord_token"
 DEFAULT_GUILD="your_guild_id"
 DEFAULT_THREAD="your_thread_id"
 DEFAULT_SQL="your_sql_connection_string_here"
