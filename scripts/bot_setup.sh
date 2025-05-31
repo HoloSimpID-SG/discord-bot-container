@@ -7,3 +7,6 @@ if ! command -v docker &> /dev/null; then
 else
     echo "Docker is already installed."
 fi
+
+# Setting up environment variables
+exec ./bot_env_var_setup.sh $1 $2 $3 $4
