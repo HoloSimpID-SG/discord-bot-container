@@ -31,7 +31,7 @@ ARG DISCORD_BOT_NET_REF=main
 ARG WORK_DIR=/root/discord-bot
 ARG NET_BOT_DIR=${WORK_DIR}/HoloSimpCart-Net
 
-# Create the necessary directory, clone the connectedhomeip repo
+# Create the necessary directory, clone the HoloSimpCart-Net repo
 RUN mkdir -p ${WORK_DIR} \
     && git clone ${DISCORD_BOT_NET_REPO} ${NET_BOT_DIR} --branch $DISCORD_BOT_NET_REF \
     && cd ${NET_BOT_DIR} \
@@ -39,6 +39,15 @@ RUN mkdir -p ${WORK_DIR} \
     && git pull origin $DISCORD_BOT_NET_REF
 
 # Copy sources into docker image
-COPY src/run_discord_bot.sh ${NET_BOT_DIR}/run_discord_bot.sh
-COPY src/.env ${NET_BOT_DIR}/.env
-RUN chmod 755 ${NET_BOT_DIR}/run_discord_bot.sh
+COPY src/compile_discord_bot.sh ${WORK_DIR}/compile_discord_bot.sh
+COPY src/run_discord_bot.sh ${WORK_DIR}/run_discord_bot.sh
+COPY src/.env ${WORK_DIR}/.env
+
+# Compile sources
+RUN cd ${WORK_DIR} \
+    && chmod u+x run_discord_bot.sh \
+    && chmod u+x compile_discord_bot.sh \
+    && ./compile_discord_bot.sh
+
+# Use exec form to forward signals properly
+ENTRYPOINT ["/root/discord-bot/run_discord_bot.sh"]
