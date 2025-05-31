@@ -22,23 +22,14 @@ RUN set -x \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Define build arguments for repositories
-ARG HOLOSIMP_IDSG_REMOTE=https://github.com/HoloSimpID-SG
-ARG DISCORD_BOT_NET_REPO=${HOLOSIMP_IDSG_REMOTE}/HoloSimpCart-Net.git
-ARG DISCORD_BOT_NET_REF=main
-
 # Define folders
 ARG WORK_DIR=/root/discord-bot
-ARG NET_BOT_DIR=${WORK_DIR}/HoloSimpCart-Net
 
 # Create the necessary directory, clone the HoloSimpCart-Net repo
-RUN mkdir -p ${WORK_DIR} \
-    && git clone ${DISCORD_BOT_NET_REPO} ${NET_BOT_DIR} --branch $DISCORD_BOT_NET_REF \
-    && cd ${NET_BOT_DIR} \
-    && git checkout $DISCORD_BOT_NET_REF \
-    && git pull origin $DISCORD_BOT_NET_REF
+RUN mkdir -p ${WORK_DIR}/HoloSimpCart-Net
 
 # Copy sources into docker image
+COPY src/HoloSimpCart-Net ${WORK_DIR}/HoloSimpCart-Net
 COPY src/compile_discord_bot.sh ${WORK_DIR}/compile_discord_bot.sh
 COPY src/run_discord_bot.sh ${WORK_DIR}/run_discord_bot.sh
 COPY src/.env ${WORK_DIR}/.env

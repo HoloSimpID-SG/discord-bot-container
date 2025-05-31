@@ -10,6 +10,7 @@ SCRIPTNAME="$NAME.sh"
 setup_discord_bot() {
     echo "Setting up $NAME..."
     chmod u+x scripts/*
+    chmod u+x scripts/setup/*
     ./scripts/bot_setup.sh $1 $2 $3 $4
     echo "Setting up $NAME done!"
 }

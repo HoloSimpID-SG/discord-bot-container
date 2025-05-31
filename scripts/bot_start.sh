@@ -1,5 +1,6 @@
 #!/bin/bash
 
 cd docker
-docker buildx build --file Dockerfile --tag discord-bot:common --load .
-docker run -d --name discord-bot-container --stop-signal SIGINT discord-bot:common
+# Rebuild from scratch (ignore cache) and start
+docker compose build --no-cache
+docker compose up -d

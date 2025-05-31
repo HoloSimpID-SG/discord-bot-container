@@ -1,0 +1,6 @@
+services:
+
+  discord-bot:
+    build: .
+    container_name: discord-bot-container
+    stop_signal: SIGINT
