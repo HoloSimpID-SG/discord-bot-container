@@ -25,11 +25,13 @@ RUN set -x \
 # Define folders
 ARG WORK_DIR=/root/discord-bot
 
-# Create the necessary directory, clone the HoloSimpCart-Net repo
+# Create the necessary directory, clone the HoloSimpCart-Net and MMOR.Utils repo
 RUN mkdir -p ${WORK_DIR}/HoloSimpCart-Net
+RUN mkdir -p ${WORK_DIR}/MMOR.Utils
 
 # Copy sources into docker image
 COPY src/HoloSimpCart-Net ${WORK_DIR}/HoloSimpCart-Net
+COPY src/MMOR.Utils ${WORK_DIR}/MMOR.Utils
 COPY src/compile_discord_bot.sh ${WORK_DIR}/compile_discord_bot.sh
 COPY src/run_discord_bot.sh ${WORK_DIR}/run_discord_bot.sh
 COPY src/.env ${WORK_DIR}/.env
