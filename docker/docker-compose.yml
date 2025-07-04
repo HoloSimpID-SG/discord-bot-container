@@ -18,17 +18,17 @@ services:
       timeout: 5s
       retries: 5
 
-  db-admin:
-    image: dpage/pgadmin4:latest
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: hinaforyadi@gio.com
-      PGADMIN_DEFAULT_PASSWORD: hinaforyadi
-    ports:
-      - "8080:80"
-    depends_on:
-      database:
-        condition: service_healthy
+  # db-admin:
+  #   image: dpage/pgadmin4:latest
+  #   restart: always
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: hinaforyadi@gio.com
+  #     PGADMIN_DEFAULT_PASSWORD: hinaforyadi
+  #   ports:
+  #     - "8080:80"
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy
 
   discord-bot:
     build: .
@@ -37,6 +37,8 @@ services:
         condition: service_healthy
     container_name: discord-bot-container
     stop_signal: SIGINT
+    env_file:
+      - src/.env
 
 volumes:
   db_data:

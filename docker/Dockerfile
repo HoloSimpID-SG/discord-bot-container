@@ -1,46 +1,34 @@
-# Use the 24.04 Ubuntu LTS version for stability
-FROM ubuntu:24.04
+# Use .NET 8 SDK ARM64 base image for clean dependency handling
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
-# Install common dependencies and clean up to reduce image size
-RUN set -x \
-    && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -fy --no-install-recommends \
-    git \
-    ca-certificates \
-    libc6 \
-    libgcc-s1 \
-    libicu74 \
-    liblttng-ust1 \
-    libssl3 \
-    libstdc++6 \
-    libunwind8 \
-    zlib1g \
-    git \
-    dotnet-sdk-8.0 \
-    aspnetcore-runtime-8.0 \
-    dotnet-runtime-8.0 \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /src
 
-# Define folders
-ARG WORK_DIR=/root/discord-bot
+# Copy projects
+COPY src/HoloSimpCart-Net ./HoloSimpCart-Net
+COPY src/MMOR.Utils ./MMOR.Utils
 
-# Create the necessary directory, clone the HoloSimpCart-Net and MMOR.Utils repo
-RUN mkdir -p ${WORK_DIR}/HoloSimpCart-Net
-RUN mkdir -p ${WORK_DIR}/MMOR.Utils
+# Restore dependencies
+RUN dotnet restore ./HoloSimpCart-Net
 
-# Copy sources into docker image
-COPY src/HoloSimpCart-Net ${WORK_DIR}/HoloSimpCart-Net
-COPY src/MMOR.Utils ${WORK_DIR}/MMOR.Utils
-COPY src/compile_discord_bot.sh ${WORK_DIR}/compile_discord_bot.sh
-COPY src/run_discord_bot.sh ${WORK_DIR}/run_discord_bot.sh
-COPY src/.env ${WORK_DIR}/.env
+# Build and publish as single file, self-contained, without trimming
+RUN dotnet publish ./HoloSimpCart-Net \
+    -c Release \
+    -r linux-arm64 \
+    -o /app/publish
 
-# Compile sources
-RUN cd ${WORK_DIR} \
-    && chmod u+x run_discord_bot.sh \
-    && chmod u+x compile_discord_bot.sh \
-    && ./compile_discord_bot.sh
+# Use smaller runtime image for final container
+FROM mcr.microsoft.com/dotnet/runtime:8.0
 
-# Use exec form to forward signals properly
-ENTRYPOINT ["/root/discord-bot/run_discord_bot.sh"]
+WORKDIR /app
+
+# Copy published files
+COPY --from=build /app/publish .
+
+# Copy .env if needed
+COPY src/.env .env
+
+# Ensure executable permission
+RUN chmod +x ./RuTakingTooLong
+
+# Use exec form to forward signals for graceful shutdown
+ENTRYPOINT ["./RuTakingTooLong"]

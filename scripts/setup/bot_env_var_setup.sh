@@ -13,7 +13,10 @@ THREAD_ID="${3:-$DEFAULT_THREAD}"
 SQL_CONNECTION="${4:-$DEFAULT_SQL}"
 
 # Rewrite .env file
-echo "export DISCORD_TOKEN=$DISCORD_TOKEN" > docker/src/.env
-echo "export GUILD_ID=$GUILD_ID" >> docker/src/.env
-echo "export THREAD_ID=$THREAD_ID" >> docker/src/.env
-echo "export SQL_CONNECTION=$SQL_CONNECTION" >> docker/src/.env
+echo "DISCORD_TOKEN=$DISCORD_TOKEN" > docker/src/.env
+echo "GUILD_ID=$GUILD_ID" >> docker/src/.env
+echo "THREAD_ID=$THREAD_ID" >> docker/src/.env
+echo "SQL_CONNECTION=$SQL_CONNECTION" >> docker/src/.env
+echo "LC_ALL=en_US.UTF-8" >> docker/src/.env
+echo "LANG=en_US.UTF-8" >> docker/src/.env
+echo "TZ=Asia/Singapore" >> docker/src/.env
