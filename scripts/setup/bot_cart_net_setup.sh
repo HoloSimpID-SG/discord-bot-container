@@ -6,7 +6,7 @@ DISCORD_BOT_NET_REPO=${HOLOSIMP_IDSG_REMOTE}/HoloSimpCart-Net.git
 DISCORD_BOT_NET_REF=main
 
 MMORUTILS_REPO=https://github.com/mcahyadit/MMOR.Utils.git
-MMORUTILS_REF=main
+MMORUTILS_REF=master
 
 # Git clone HoloSimpCart-Net inside docker/src
 cd docker/src
